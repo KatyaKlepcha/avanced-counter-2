@@ -1,0 +1,23 @@
+.wrapper {
+    background-color: #8D8741;
+    width: 500px;
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    padding: 20px;
+    box-sizing: border-box;
+    border-radius: 3px;
+}
+
+
+.buttonWrapper {
+    display: flex;
+    border: 2px solid #BC986A;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 20px;
+    justify-content: space-evenly;
+    border-radius: 3px;
+}
