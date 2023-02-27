@@ -5,7 +5,6 @@ import s from './Couner.module.css'
 type CounterType = {
     count: number
     maxValue: number
-    setCount: (count: number) => void
     setSettings: (value: boolean) => void
     increaseCount: () => void
     resetCount: () => void

@@ -2,54 +2,48 @@ import React, {useEffect, useState} from 'react';
 import './App.css';
 import Counter from "./components/Counter/Counter";
 import SettingsCounter from "./components/SettingsCounter/SettingsCounter/SettingsCounter";
+import {
+    increaseCountAC,
+    resetCountAC,
+    setCountAC,
+    setMaxValueAC,
+    setStarValueAC
+} from "./components/reducers/counterReducer";
+import {useDispatch, useSelector} from "react-redux";
+import {selectCount, selectMaxValue, selectStartValue} from "./components/selectors/selectors";
 
 function App() {
 
-    const [count, setCount] = useState(0)
     const [settings, setSettings] = useState(false)
-    const [startValue, setStartValue] = useState(0)
-    const [maxValue, setMaxValue] = useState(0)
     const [disabled, setDisabled] = useState(false)
 
+    const startValue = useSelector(selectStartValue)
+    const maxValue = useSelector(selectMaxValue)
+    const count = useSelector(selectCount)
 
-    useEffect(() => {
-        let startValueAsString = localStorage.getItem('counterStartValue')
-        if (startValueAsString) {
-            let newStartValue = JSON.parse(startValueAsString)
-            setStartValue(newStartValue)
-            setCount(newStartValue)
-        }
-
-        let maxValueAsString = localStorage.getItem('counterMaxValue')
-        if (maxValueAsString) {
-            let newMaxValue = JSON.parse(maxValueAsString)
-            setMaxValue(newMaxValue)
-        }
-    }, [])
+    const dispatch = useDispatch()
 
     const settingsDisabled = startValue < 0
         || maxValue < 0
         || startValue === maxValue
         || maxValue < startValue
 
-    const setToLocalStorage = () => {
-        localStorage.setItem('counterStartValue', JSON.stringify(startValue))
-
-        setCount(startValue)
-        localStorage.setItem('counterMaxValue', JSON.stringify(maxValue))
-
-        setDisabled(false)
-    }
+    useEffect(() => {
+        dispatch(setCountAC(startValue))
+    }, [dispatch, startValue])
 
     const increaseCount = () => {
         if (count < maxValue) {
-            setCount(count + 1)
+            dispatch(increaseCountAC())
         }
+    }
 
+    const undisableButtons = ()=>{
+        setDisabled(false)
     }
 
     const resetCount = () => {
-        setCount(startValue)
+        dispatch(resetCountAC(startValue))
     }
 
     const setHandler = () => {
@@ -57,12 +51,12 @@ function App() {
     }
 
     const onChangeStartValue = (startValue: number) => {
-        setStartValue(startValue)
+        dispatch(setStarValueAC(startValue))
         setDisabled(true)
     }
 
     const onChangeMaxValue = (maxValue: number) => {
-        setMaxValue(maxValue)
+        dispatch(setMaxValueAC(maxValue))
         setDisabled(true)
     }
 
@@ -72,15 +66,14 @@ function App() {
             {settings
                 ? <SettingsCounter maxValue={maxValue}
                                    startValue={startValue}
-                                   setToLocalStorage={setToLocalStorage}
                                    onChangeStartValue={onChangeStartValue}
                                    onChangeMaxValue={onChangeMaxValue}
                                    setSettings={setSettings}
                                    disabled={settingsDisabled}
+                                   undisableButtons={undisableButtons}
                 />
                 : <Counter count={count}
                            maxValue={maxValue}
-                           setCount={setCount}
                            setSettings={setSettings}
                            increaseCount={increaseCount}
                            resetCount={resetCount}

@@ -6,18 +6,18 @@ import s from './SettingsCounter.module.css'
 type SettingsCounterPropsType = {
     startValue: number
     maxValue: number
-    setToLocalStorage: () => void
     onChangeStartValue: (startValue: number) => void
     onChangeMaxValue: (maxValue: number) => void
     setSettings: (value: boolean) => void
     disabled: boolean
+    undisableButtons: ()=> void
 }
 
 const SettingsCounter = (props: SettingsCounterPropsType) => {
 
     const setToLocalStorage = () => {
-        props.setToLocalStorage()
         props.setSettings(false)
+        props.undisableButtons();
     }
 
 
@@ -25,7 +25,8 @@ const SettingsCounter = (props: SettingsCounterPropsType) => {
         <div className={s.wrapper}>
             <SettingsDisplay startValue={props.startValue} maxValue={props.maxValue}
                              onChangeStartValue={props.onChangeStartValue} onChangeMaxValue={props.onChangeMaxValue}/>
-            <div className={s.buttonWrapper}><Button title={'set'} callback={setToLocalStorage} disabled={props.disabled}/></div>
+            <div className={s.buttonWrapper}><Button title={'set'} callback={setToLocalStorage}
+                                                     disabled={props.disabled}/></div>
         </div>
     );
 };
