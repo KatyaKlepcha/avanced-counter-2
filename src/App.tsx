@@ -8,7 +8,7 @@ import {
     setCountAC,
     setMaxValueAC,
     setStarValueAC
-} from "./components/reducers/counterReducer";
+} from "./components/bll/reducers/counterReducer";
 import {useDispatch, useSelector} from "react-redux";
 import {selectCount, selectMaxValue, selectStartValue} from "./components/selectors/selectors";
 

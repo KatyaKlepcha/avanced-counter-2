@@ -4,7 +4,7 @@ const initialState = {
     maxValue: 0
 };
 
-type initPropsType = typeof initialState
+type InitStateType = typeof initialState
 
 type ActionsType = ReturnType<typeof increaseCountAC>
     | ReturnType<typeof resetCountAC>
@@ -12,7 +12,7 @@ type ActionsType = ReturnType<typeof increaseCountAC>
     | ReturnType<typeof setMaxValueAC>
     | ReturnType<typeof setCountAC>;
 
-export const counterReducer = (state: initPropsType = initialState, action: ActionsType): initPropsType => {
+export const counterReducer = (state: InitStateType = initialState, action: ActionsType): InitStateType => {
     switch (action.type) {
 
         case 'SET-COUNT': {
